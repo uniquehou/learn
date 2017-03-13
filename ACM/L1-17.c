@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-int main(){
+int main()
+{
 	char str[51];
 	float k = 1, count = 0;
 	gets(str);
@@ -11,13 +12,5 @@ int main(){
 		count += str[i] == '2';
 	}
 	printf("%.2f\n", count/(strlen(str)-length)*k*100);
+	return 0;
 }
-
-
-
-
-
-
-
-
-
