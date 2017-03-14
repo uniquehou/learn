@@ -1,14 +1,8 @@
 ﻿#include <stdio.h>
-int main(int argc, char const *argv[])
+#include <string.h>
+int main()
 {
-	int sum = 19-1;
-	for (int i=3; sum>2*i; i+=2) {
-		if (sum-2*i) {
-			sum -= 2*i;
-		} else {
-			break;
-		}
-	}
-	printf("%d\n", sum);
+	int i;
+	printf("%d\n", i);
 	return 0;
 }
