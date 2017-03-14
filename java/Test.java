@@ -1,31 +1,76 @@
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.*;
+import java.lang.*;
 
 public class Test {
 	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println(ctranf(scanner.nextDouble()));
-		scanner.nextLine();
-		System.out.println(ftranc(scanner.nextDouble()));
-		scanner.nextLine();
-		System.out.println(autotran(scanner.nextLine()));
+		System.out.println("abc");
 	}
-	static double ctranf(double C) {
-		return 9 * C / 5 + 23;
-	}
-	static double ftranc(double F) {
-		return 5 * ( F - 32 ) / 9;
-	}
-	static double autotran(String temp) {
-		while (true) {
-			if (temp.endsWith("C") || temp.endsWith("c") ) {
-				return ctranf(new Double(temp.substring(0,temp.length()-1)).doubleValue());
-			} else if (temp.endsWith("F") || temp.endsWith("f")) {
-				return ftranc(new Double(temp.substring(0,temp.length()-1)).doubleValue());
-			} else {
-				System.out.println("Input data error, please input again: ");
+
+	static void prime_in(int begin, int end) {
+		System.out.printf("Between %d and %d: ", begin, end);
+		for (int n=begin; n<end; n++) {
+			if (is_prime(n)) {
+				System.out.printf("%d ", n);
 			}
 		}
+		System.out.println();
+	}
+
+	static boolean is_prime(int n) {
+		for(int i=2; i<Math.sqrt(n); i++) {
+			if ( n%i == 0 ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	static boolean is_daffodil(int n) {
+		int i = n / 100;
+		int j = n / 10 % 10;
+		int k = n % 10;
+		if (Math.pow(i,3) + Math.pow(j,3) + Math.pow(k,3) == n) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	static void daffodil_in(int begin, int end) {
+		System.out.printf("Between %d and %d is: ", begin, end);
+		for (int n=begin; n < end; n++) {
+			if (is_daffodil(n)) {
+				System.out.printf("%d ", n);
+			}
+		}
+		System.out.println();
+	}
+
+	static void fibonacci(int n) {
+		if ( n<2 ) {
+			System.out.println("Error");
+		} else {
+			int i=1, j=1, z;
+			for (int count=0; count<=n; count++) {
+				z = i + j;
+				i = j;
+				j = z;
+				System.out.printf("%d ", z);
+			}
+			System.out.println();
+		}
+	}
+
+	static int area(int width, int high) {
+		return width * high;
+	}
+
+	static double area(double a, double b, double c) {
+		double s = (a+b+c) /2;
+		return Math.sqrt(s*(s-a)*(s-b)*(s-c));
+	}
+
+	static double area(double r) {
+		return Math.PI * r * r;
 	}
 }

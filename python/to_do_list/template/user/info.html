@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>个人中心</title>
+</head>
+<body>
+	<form action="/index/info" method="post">
+		计划名：<input type="text" name='name'>
+		结束时间<input type="text" name='finish_time'>
+		邮箱提醒：<input type="radio" name='mail'>
+		邮箱：<input type="text" name='mail_address'>
+		微信提醒：<input type="radio" name='wechat'>
+		微信号：<input type="text" name='wechat_name'> <br />
+		描述：<input type="text" name='describe'>
+		备注<input type="text" name='remark'>
+		<input type="submit" value="ADD">
+	</form>
+	<hr />
+	<table>
+		<tr>
+			<td>计划名</td>
+			<td>描述</td>
+			<td>结束时间</td>
+			<td>备注</td>
+			<td>邮箱</td>
+			<td>微信号</td>
+		</tr>
+		{% for even in evens %}
+		<tr>
+			<td>{{even.name}}</td>
+			<td>{{even.describe}}</td>
+			<td>{{even.describe}}</td>
+			<td>{{even.remark}}</td>
+			<td>{{even.finish_time}}</td>
+			<td>{{even.mail_address}}</td>
+			<td>{{even.wechat_name}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</body>
+</html>

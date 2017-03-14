@@ -1,0 +1,27 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: stack - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\ADMINI~1\AppData\Local\Temp\RSPF5E8.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/stack.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\Learn\code\C\stack.c"
+]
+Creating command line "cl.exe @C:\Users\ADMINI~1\AppData\Local\Temp\RSPF5E8.tmp" 
+<h3>Output Window</h3>
+Compiling...
+stack.c
+E:\Learn\code\C\stack.c(29) : warning C4716: 'StackLength' : must return a value
+E:\Learn\code\C\stack.c(45) : warning C4700: local variable 'S' used without having been initialized
+
+
+
+<h3>Results</h3>
+stack.obj - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
