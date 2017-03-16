@@ -1,8 +1,5 @@
 ﻿#include <stdio.h>
-#include <string.h>
-int main()
-{
-	int i;
-	printf("%d\n", i);
-	return 0;
+int main() {
+	char name[10] = "hou";
+	printf("%s\n", name);
 }
