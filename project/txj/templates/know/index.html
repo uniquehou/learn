@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>进入系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maxium-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body style="background: #ccc;">
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">提示</div>
+                <div class="modal-body text-center"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+	<h1 class="text-center" style="margin-top: 100px;">以一敌百</h1>
+	<button class="btn btn-primary btn-block" id="stayon">我是擂主</button>
+    <button class="btn btn-primary btn-block" id="challenge">我要挑战</button>
+    <button class="btn btn-primary btn-block" id="start" disabled>开始答题</button>
+    </div>
+
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+        var start_url = "";
+        $("button#stayon").click(function () {
+            $.ajax("{% url 'know:start' %}", {
+                type: 'get',
+                data: {
+                    'oper': 'stayon'
+                },
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status == 1) {
+                        alert_model('站擂成功');
+                        $("#start")[0].disabled = false;
+                        start_url = "{% url 'know:oneToMany' one index %}";
+                    } else if (result.status == 2) {
+                        alert_model("竞赛还未开始");
+                    } else
+                        alert_model('上台时不小心摔倒，请重新上台');
+                },
+                error: function () {
+                    alert_model('网络繁忙，请稍后重试');
+                }
+            })
+        })
+        $("button#challenge").click(function () {
+            $.ajax("{% url 'know:start' %}", {
+                type: 'get',
+                data: {
+                    'oper': 'challenge'
+                },
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status == 1) {
+                        alert_model('报名成功');
+                        $("#start")[0].disabled = false;
+                        start_url = "{% url 'know:oneToMany' many index %}";
+                    } else if (result.status == 2) {
+                        alert_model("竞赛还未开始");
+                    } else
+                        alert_model('擂主还没上擂台');
+                },
+                error: function () {
+                    alert_model('网络繁忙，请稍后重试');
+                }
+            })
+        })
+        $("button#start").click(function () {
+            window.location.href = start_url;
+        })
+
+        function alert_model(message) {
+            $('div.modal-body').text(message);
+            $("div.modal").modal('show');
+        }
+    </script>
+</body>
+</html>

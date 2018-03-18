@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>一夫当关</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maxium-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        body {
+            background: rgb(98, 63, 194);
+        }
+        .time {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        #grade {
+            color: #e52121;
+        }
+        #finish {
+            display: none;
+        }
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="start">
+    <div class="time">
+        <p class="text-center">已打败 <span id="grade1"> {{ grade }}</span> 人</p>
+    </div>
+		<h1 class="text-center">第 <span id="index"> {{ index }}</span> 题</h1>
+	<div class="container panel panel-default" style="margin-top: 10px;">
+		<div class="panel-heading"> &nbsp;&nbsp; <span id="content"> {{ content }}</span></div>
+		<div class="panel-body">
+			<ul class="list-unstyled">
+				<li><input type="radio" name="answer" value="1" id="1"> <label for="1"> <span id="option1"> {{ option1 }}</span> </label></li>
+				<li><input type="radio" name="answer" value="2" id="2"> <label for="2"> <span id="option2"> {{ option2 }}</span> </label></li>
+				<li><input type="radio" name="answer" value="3" id="3"> <label for="3"> <span id="option3"> {{ option3 }}</span> </label></li>
+				<li><input type="radio" name="answer" value="4" id="4"> <label for="4"> <span id="option4"> {{ option4 }}</span> </label></li>
+                <input type="type" name="correct_option" id="correct_option" value="{{ correct_option }}">
+			</ul>
+		</div>
+	</div>
+	<input type="submit" id="submit" class="btn btn-primary" style="width: 60%; margin-left: 20%;">
+    </div>
+
+    <!-- 结束页面 -->
+    <div id="finish">
+        <div class="text-center">
+            <span class="hide" id="error"> 回答错误 </span>
+            <span class="hide" id="oneerror"> 擂主答题错误  </span>
+            <span class="hide" id="access"> All access! </span>
+            答题结束</div>
+            <div class="result text-center">此次共打败 <span id="grade2"></span> 人</div>
+    </div>
+
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+    <script>
+        var grade1 = $("#grade1");
+        var grade2 = $("#grade2");
+        var index = $("#index");
+        var content = $("#content");
+        var option1 = $("#option1");
+        var option2 = $("#option2");
+        var option3 = $("#option3");
+        var option4 = $("#option4");
+        var correct_option = $("#correct_option");
+        var start_div = $("#start");
+        var finish_div = $('#finish');
+        var delay_div = $("span#delay");
+        var oneerror_div = $("span#oneerror");
+        var error_div = $("span#orror");
+        var access_div = $("span#access");
+        var remain_time = 7;
+
+        function get_answer() {
+            options = document.querySelectorAll("input[type='radio']");
+            for (i=0; i<options.length; i++) {
+                if (options[i].checked) {
+                    options[i].checked = false;
+                    return options[i].value;
+                }
+            }
+            return new Date().getSeconds() % 4 + 1;
+        }
+
+        function submit() {
+            $.ajax("#", {
+                type: 'post',
+                data: {
+                    'answer': get_answer(),
+                    'correct_option': correct_option.val(),
+                },
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res.status);
+                    grade1.text(res.grade);
+                    if (res.status == 1) {
+                        // next question
+                        index.text(res.index);
+                        content.text(res.content);
+                        option1.text(res.option1);
+                        option2.text(res.option2);
+                        option3.text(res.option3);
+                        option4.text(res.option4);
+                        correct_option.val(res.correct_option);
+                        remain_time = 7;
+                    } else {
+                        // the one error
+                        if (res.status == 2)
+                            oneerror_div.show();
+                        // all access
+                        else if (res.status == 3)
+                            access_div.show();
+                        // answer is error
+                        else
+                            error_div.show();
+                        // finish
+                        grade2.text(res.grade);
+                        start_div.hide();
+                        finish_div.show();
+                    }
+                },
+                error: function () {
+                    alert('网络繁忙，请稍后重试');
+                }
+            })
+        }
+
+        $("#submit").click(function () {
+            submit();
+        })
+
+      function time() {
+        if(remain_time==0) {
+            submit();
+        } else {
+          document.querySelector("input[type='submit']").value = "提交 " + "（" + remain_time +"）";
+          remain_time -= 1;
+          setTimeout(time, 1000);
+        }
+      }
+      window.onload = time;
+    </script>
+</body>
+</html>

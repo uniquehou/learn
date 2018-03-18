@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>抢答</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maxium-scale=1, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/style/bootstrap.min.css">
+	<style>
+		.time{
+			position: fixed;
+			top: 10px;
+			left: 40%;
+		}
+		#time {
+			width: 50px;
+		}
+	</style>
+	<script type="text/javascript">
+		var c=0;
+		var t;
+		function timedCount()
+		{
+		document.getElementById('time').value=c;
+		c=c+1;
+		t=setTimeout("timedCount()",1000);
+		}
+		window.onload = timedCount;
+	</script>
+</head>
+<body>
+	<div class="container">
+	<h1 class="text-center" style="margin: 40px 20px 0 0;">答题系统</h1>
+	<form method="post" action="{:U('Known/submit')}">
+		<div class="time">
+			<p>已用时 <input type='text' id='time' name="time"> s</p>
+		</div>
+		<foreach name='knows' item='know' key='index'>
+		<div class="panel panel-default" style="margin-top: 10px;">
+			<div class="panel-heading">{$index+1} &nbsp;&nbsp;{$know['question']}</div>
+			<div class="panel-body">
+					<ul class="list-unstyled">
+						<li><input type="hidden" name="question{$index}" value="{$know['answer']}"></li>
+						<li><input type="radio" name="answer{$index}" value="1" id="answer{$index}1"> <label for="answer{$index}1">{$know['option_1']}</label></li>
+						<li><input type="radio" name="answer{$index}" value="2" id="answer{$index}2"> <label for="answer{$index}2">{$know['option_2']}</label></li>
+						<li><input type="radio" name="answer{$index}" value="3" id="answer{$index}3"> <label for="answer{$index}3">{$know['option_3']}</label></li>
+						<li><input type="radio" name="answer{$index}" value="4" id="answer{$index}4"> <label for="answer{$index}4">{$know['option_4']}</label></li>
+					</ul>
+			</div>
+		</div>
+		</foreach>
+	<input type="submit" name="submit" class="btn btn-primary col-xs-4 col-xs-offset-4" value="提交" style="margin-bottom: 20px;">
+	</form>
+	</div>
+</body>
+</html>

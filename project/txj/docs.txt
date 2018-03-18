@@ -1,0 +1,5 @@
+关闭csrf验证
+进入答题页面时在session中注册 oper 和 index，之前以session 中的为准
+缓存中的信息：start    竞赛开始的标志，登擂时创建为1,摆主结束答错或结束时赋值0
+	     remain   剩余人数，初始为30
+             question 竞赛的题
